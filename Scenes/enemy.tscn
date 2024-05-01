@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3 uid="uid://breec0q2uwp48"]
+
+[ext_resource type="Script" path="res://Scripts/Units/Enemy.gd" id="1_wffvo"]
+[ext_resource type="PackedScene" uid="uid://bg6mx8u5umcl2" path="res://Scenes/EntityComponents/MovementComponent.tscn" id="2_cw20s"]
+[ext_resource type="PackedScene" uid="uid://tsk1kb2qlxr7" path="res://Scenes/EntityComponents/HealthComponent.tscn" id="3_77paw"]
+[ext_resource type="PackedScene" uid="uid://sm8lx4hc1pb0" path="res://Scenes/EntityComponents/HurtboxComponent.tscn" id="4_ujp2y"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6mm28"]
+radius = 17.0294
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pk5l6"]
+radius = 22.0
+
+[node name="Enemy" type="CharacterBody2D"]
+z_index = -1
+collision_layer = 2
+collision_mask = 17
+motion_mode = 1
+script = ExtResource("1_wffvo")
+max_distance = 208
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(0, -23, -17, -16, -23, 0, -17, 16, 0, 23, 16, 16, 23, 0, 16, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6mm28")
+
+[node name="MovementComponent" parent="." instance=ExtResource("2_cw20s")]
+initial_speed = 200.0
+speed_multiplier = 10.0
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_77paw")]
+position = Vector2(-1, 0)
+max_health = 50
+
+[node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_ujp2y")]
+collision_layer = 2
+collision_mask = 4
+health_component = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtboxComponent"]
+shape = SubResource("CircleShape2D_pk5l6")
+debug_color = Color(0.803922, 0.341176, 0.619608, 0.419608)
+
+[node name="DaggerMarkers" type="Node2D" parent="."]

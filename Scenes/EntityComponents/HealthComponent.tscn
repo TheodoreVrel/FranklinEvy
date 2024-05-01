@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://tsk1kb2qlxr7"]
+
+[ext_resource type="Script" path="res://Scripts/EntityComponents/UnitComponents/HealthComponent.gd" id="1_vmhrl"]
+
+[node name="HealthComponent" type="Node2D"]
+script = ExtResource("1_vmhrl")
+
+[connection signal="health_changed" from="." to="." method="_on_health_changed"]

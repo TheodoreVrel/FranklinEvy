@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d06hnarxq0muv"]
+
+[ext_resource type="Script" path="res://Scripts/EntityComponents/AttackComponents/DefaultProjectileAttackComponent.gd" id="1_y4uls"]
+
+[node name="ProjectileAttackComponent" type="Node2D"]
+script = ExtResource("1_y4uls")
