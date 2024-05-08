@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://ct2bsrpsmobgd"]
+[gd_scene load_steps=3 format=3 uid="uid://ct2bsrpsmobgd"]
 
 [ext_resource type="Script" path="res://Scripts/EntityComponents/AttackComponents/ProjectileAttackComponents/PlumeDaggerComponent.gd" id="1_ey2vp"]
+[ext_resource type="PackedScene" uid="uid://cl8wsdwjxskr4" path="res://Scenes/DamageDealers/Projectiles/throwing_dagger.tscn" id="2_mcx0g"]
 
 [node name="PlumeDaggerComponent" type="Node2D"]
 script = ExtResource("1_ey2vp")
+projectile_packed_scene = ExtResource("2_mcx0g")
+projectile_distance = 150.0

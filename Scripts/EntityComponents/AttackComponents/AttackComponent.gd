@@ -20,10 +20,9 @@ func _ready():
 		attack_name = self.name
 	attack.health_value = attack_damage
 	attack.knockback_force = knockback_force
+	print("IIIIIIII - ", attack_name, " ", attack_damage, " damage")
 
 
-func attack_hitbox_hit_unit_hurtbox(area):
-	if area is HurtboxComponent:
-		area.damage(attack)
+
 
 

@@ -6,6 +6,8 @@ class_name ProjectileAttackComponent
 
 func throw_projectile(projectileContainer : Node2D, projectile_attack : ProjectileAttackComponent, emitting_position : Vector2, throwing_towards : Vector2, throw_to_max_distance : bool = true):
 	var new_projectile = projectile_packed_scene.instantiate()
+	new_projectile.attack = projectile_attack
+	print(projectile_attack, new_projectile. attack, 'ezogaibunaboenaeorvbnnazrozmbvamribvaerimuvbaeiuvbaziubvmaezuir')
 	new_projectile.position = emitting_position
 	
 	if !throw_to_max_distance:
@@ -17,9 +19,11 @@ func throw_projectile(projectileContainer : Node2D, projectile_attack : Projecti
 	new_projectile.direction = throwing_towards.normalized()
 	new_projectile.speed = projectile_attack.weapon_speed
 	print(get_parent().name)
-	new_projectile.connect("picked_up", get_parent().get_parent().pick_up_throwing_knife)
-	new_projectile.connect("hovered", get_parent().get_parent().dagger_hovered)
-	new_projectile.connect("no_longer_hovered", get_parent().get_parent().dagger_unhovered)
+	var player = get_parent().get_parent()
+	new_projectile.connect("picked_up", player.pick_up_throwing_knife)
+	new_projectile.connect("hovered", player.dagger_hovered)
+	new_projectile.connect("tp_area_hovered", player.tp_area_hovered)
+	new_projectile.connect("tp_focused", player.on_teleport_focus_timer_timeout)
 	
 	projectileContainer.add_child(new_projectile)
 

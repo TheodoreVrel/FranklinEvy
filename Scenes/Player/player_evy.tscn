@@ -1,4 +1,4 @@
-[gd_scene load_steps=61 format=3 uid="uid://bjeyuk0031nsr"]
+[gd_scene load_steps=62 format=3 uid="uid://bjeyuk0031nsr"]
 
 [ext_resource type="Script" path="res://Scripts/Units/player_evy.gd" id="1_73mtl"]
 [ext_resource type="PackedScene" uid="uid://bg6mx8u5umcl2" path="res://Scenes/EntityComponents/MovementComponent.tscn" id="2_riik3"]
@@ -6,9 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://bujoey6672lkh" path="res://Assets/Base Character - Free/idle.png" id="2_uw7bd"]
 [ext_resource type="Texture2D" uid="uid://b6xypgb2ren3m" path="res://Assets/Base Character - Free/run.png" id="3_wjeco"]
 [ext_resource type="PackedScene" uid="uid://dj16033t7yaoq" path="res://Scenes/EntityComponents/AttackComponents/DefaultAttackComponent.tscn" id="3_wvx7r"]
+[ext_resource type="Shader" path="res://Scenes/Player/player_evy.gdshader" id="4_busuh"]
 [ext_resource type="PackedScene" uid="uid://sm8lx4hc1pb0" path="res://Scenes/EntityComponents/HurtboxComponent.tscn" id="5_5r3rr"]
 [ext_resource type="PackedScene" uid="uid://ct2bsrpsmobgd" path="res://Scenes/EntityComponents/AttackComponents/ProjectileAttackComponents/PlumeDaggerComponent.tscn" id="5_8n7fg"]
-[ext_resource type="PackedScene" uid="uid://cl8wsdwjxskr4" path="res://Scenes/Projectiles/throwing_dagger.tscn" id="5_300xn"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o8qsp"]
 radius = 2.5
@@ -393,16 +393,21 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5irrs"]
+shader = ExtResource("4_busuh")
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/color2 = Color(1, 1, 1, 1)
+shader_parameter/progress = 0.0
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_knwh4"]
 radius = 5.0
 height = 12.0
 
-[node name="Player_Evy" type="CharacterBody2D" node_paths=PackedStringArray("tp_focus_timer")]
+[node name="Player_Evy" type="CharacterBody2D"]
 scale = Vector2(2, 2)
 collision_mask = 18
 motion_mode = 1
 script = ExtResource("1_73mtl")
-tp_focus_timer = NodePath("Timers/TeleportFocusTime")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1)
@@ -419,6 +424,7 @@ frame_progress = 0.275085
 [node name="Rotatable" type="Node2D" parent="."]
 
 [node name="LookingThisWay" type="Polygon2D" parent="Rotatable"]
+material = SubResource("ShaderMaterial_5irrs")
 polygon = PackedVector2Array(-1, 18.5, -5, 17, 0, 23.5, 5, 17, 1, 18.5)
 
 [node name="ProjectileEmissionMarkers" type="Node2D" parent="Rotatable"]
@@ -441,7 +447,7 @@ debug_color = Color(0.996078, 0, 0.219608, 0.419608)
 [node name="HealthComponent" parent="." instance=ExtResource("2_ugonx")]
 
 [node name="MovementComponent" parent="." node_paths=PackedStringArray("dash_cooldown", "tp_cooldown") instance=ExtResource("2_riik3")]
-initial_speed = 300.0
+initial_speed = 380.0
 dash_length = 202.0
 dash_time = 0.08
 dash_cooldown = NodePath("../Timers/DashCooldown")
@@ -454,7 +460,6 @@ tp_cooldown = NodePath("../Timers/TeleportCooldown")
 [node name="PlumeDaggerAttack" parent="Attacks" instance=ExtResource("5_8n7fg")]
 position = Vector2(0, -1.5)
 scale = Vector2(2, 2)
-projectile_packed_scene = ExtResource("5_300xn")
 projectile_distance = 460.0
 weapon_speed = 250.0
 
@@ -466,8 +471,8 @@ one_shot = true
 
 [node name="TeleportCooldown" type="Timer" parent="Timers"]
 wait_time = 4.0
-
-[node name="TeleportFocusTime" type="Timer" parent="Timers"]
 one_shot = true
+
+[connection signal="teleported" from="MovementComponent" to="." method="_on_movement_component_teleported"]
 
 [editable path="Attacks/PlumeDaggerAttack"]

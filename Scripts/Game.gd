@@ -5,6 +5,7 @@ var camera_following_player : bool = true
 
 @onready var player = $Player_Evy
 
+
 func _process(_delta):
 	if camera_following_player:
 		camera.position = player.position

@@ -20,13 +20,13 @@ script = ExtResource("1_wffvo")
 max_distance = 208
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
-polygon = PackedVector2Array(0, -23, -17, -16, -23, 0, -17, 16, 0, 23, 16, 16, 23, 0, 16, -16)
+polygon = PackedVector2Array(0, -23, -17, -16, -23, 0, -16, 16, 0, 23, 17, 15, 21, 5, 33, 0, 21, -5, 16, -16)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_6mm28")
 
 [node name="MovementComponent" parent="." instance=ExtResource("2_cw20s")]
-initial_speed = 200.0
+initial_speed = 650.0
 speed_multiplier = 10.0
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_77paw")]

@@ -7,17 +7,20 @@
 [node name="Game" type="Node2D"]
 script = ExtResource("1_pt1v5")
 
-[node name="Player_Evy" parent="." instance=ExtResource("1_oqhap")]
+[node name="Player_Evy" parent="." node_paths=PackedStringArray("projectiles") instance=ExtResource("1_oqhap")]
 position = Vector2(290, 190)
 scale = Vector2(3, 3)
+projectiles = NodePath("../Projectiles")
 
 [node name="Projectiles" type="Node2D" parent="."]
 
 [node name="Enemy" parent="." instance=ExtResource("2_6f3y8")]
+rotation = 1.5708
 
-[node name="Enemy2" parent="." instance=ExtResource("2_6f3y8")]
+[node name="Enemy2" parent="." node_paths=PackedStringArray("to_follow") instance=ExtResource("2_6f3y8")]
 position = Vector2(573, 249)
 behavior = 1
+to_follow = NodePath("../Player_Evy")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(290, 190)
