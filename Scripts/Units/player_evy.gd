@@ -1,7 +1,8 @@
 extends CharacterBody2D
 
 @onready var movement_component : MovementComponent = $MovementComponent
-@onready var throwing_knife_attack : ProjectileAttackComponent = $Attacks/PlumeDaggerAttack
+@onready var throwing_knife_attack : ProjectileAttackComponent = $Rotatable/AttackComponents/PlumeDaggerAttackComponent
+@onready var sword_attack : MeleeAttackComponent = $Rotatable/AttackComponents/SwordAttackComponent
 @onready var animated_player_sprite : AnimatedSprite2D = $AnimatedSprite2D
 
 
@@ -25,6 +26,8 @@ var focused_dagger : ThrowingDagger
 var tp_dagger : ThrowingDagger
 var dagger_hovered_for_tp_recast : ThrowingDagger
 signal teleporting
+
+
 
 
 func _ready():
@@ -93,7 +96,10 @@ func get_input():
 		#elif last_recorded_input.y >= 1:
 			#
 		#elif last_recorded_input.y <= -1:
-			
+	
+	if Input.is_action_just_pressed("attack"):
+		attack_sword()
+		
 	
 	if Input.is_action_just_pressed("dash"):
 		movement_component.dash(last_recorded_input)
@@ -120,12 +126,12 @@ func get_input():
 		elif focused_dagger and hovered_dagger != focused_dagger:
 			reset_all_daggers()
 			focus_dagger(hovered_dagger)
-			print("uunfocusing dagger")
+			#print("uunfocusing dagger")
 			
 		elif hovered_dagger:
 			reset_all_daggers()
 			focus_dagger(hovered_dagger)
-			print("action")
+			#print("action")
 		else :
 			reset_all_daggers()
 		
@@ -160,7 +166,7 @@ func reset_all_daggers():
 			
 		
 	
-	print("unfocused")
+	#print("unfocused")
 
 func focus_dagger(dagger : ThrowingDagger):
 	if dagger :
@@ -176,10 +182,8 @@ func focus_dagger(dagger : ThrowingDagger):
 
 
 func attack_throwing_knife(emitting_position : Vector2, throwing_towards : Vector2, throw_to_max_distance : bool):
-	if throwing_knife_attack.throwing_knives_left > 0:
-		throwing_knife_attack.throwing_knives_left -= 1
-		
-		throwing_knife_attack.throw_projectile(get_parent().find_child("Projectiles"), throwing_knife_attack, emitting_position, throwing_towards, throw_to_max_distance)
+	throwing_knife_attack.throw_projectile(get_parent().find_child("Projectiles"), throwing_knife_attack, emitting_position, throwing_towards, throw_to_max_distance)
+
 
 func get_throwing_knife_emission_position():
 	match last_throw_angle:
@@ -187,7 +191,7 @@ func get_throwing_knife_emission_position():
 			last_throw_angle = throw_angle.RIGHT
 		throw_angle.RIGHT:
 			last_throw_angle = throw_angle.LEFT
-	print(last_throw_angle, "      ", $Rotatable/ProjectileEmissionMarkers.get_child(last_throw_angle).position)
+	#print(last_throw_angle, "      ", $Rotatable/ProjectileEmissionMarkers.get_child(last_throw_angle).position)
 	return $Rotatable/ProjectileEmissionMarkers.get_child(last_throw_angle).position + position
 
 func pick_up_throwing_knife(dagger):
@@ -199,7 +203,7 @@ func pick_up_throwing_knife(dagger):
 	if dagger == focused_dagger:
 		focused_dagger = null
 	if dagger == tp_dagger:
-		tp_dagger == null
+		tp_dagger = null
 	
 	reset_all_daggers()
 	print("picked up")
@@ -219,8 +223,6 @@ func tp_area_hovered(dagger : ThrowingDagger, in_area : bool):
 		#print(dagger_hovered_for_tp_recast)
 		#print(in_area and dagger_hovered_for_tp_recast and ((tp_dagger and tp_dagger != dagger) or (focused_dagger and focused_dagger != dagger)))
 		#print(in_area, dagger_hovered_for_tp_recast != null, ((tp_dagger and tp_dagger != dagger) or (focused_dagger and focused_dagger != dagger)))
-	
-	
 	
 	else:
 		#print("leaving the range of this dagger: ", tp_dagger, " = ", dagger_hovered_for_tp_recast)
@@ -322,7 +324,7 @@ func handle_dagger_zone_color(dagger : ThrowingDagger):
 
 
 func attack_sword():
-	pass
+	sword_attack.sword_slash()
 
 
 

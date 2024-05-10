@@ -28,7 +28,7 @@ func _ready():
 	
 
 func dash(dash_direction : Vector2):
-	print(can_dash)
+	#print(can_dash)
 	if can_dash:
 		var arrival_point =  get_parent().position + dash_length * dash_direction.normalized()
 		var tween = get_tree().create_tween()

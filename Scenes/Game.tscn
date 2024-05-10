@@ -14,16 +14,18 @@ projectiles = NodePath("../Projectiles")
 
 [node name="Projectiles" type="Node2D" parent="."]
 
-[node name="Enemy" parent="." instance=ExtResource("2_6f3y8")]
-rotation = 1.5708
-
-[node name="Enemy2" parent="." node_paths=PackedStringArray("to_follow") instance=ExtResource("2_6f3y8")]
-position = Vector2(573, 249)
-behavior = 1
-to_follow = NodePath("../Player_Evy")
-
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(290, 190)
 scale = Vector2(3, 3)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Enemy" parent="Enemies" instance=ExtResource("2_6f3y8")]
+rotation = 1.5708
+
+[node name="Enemy2" parent="Enemies" node_paths=PackedStringArray("to_follow") instance=ExtResource("2_6f3y8")]
+position = Vector2(573, 249)
+behavior = 1
+to_follow = NodePath("../../Player_Evy")
 
 [connection signal="teleporting" from="Player_Evy" to="." method="_on_player_evy_teleporting"]

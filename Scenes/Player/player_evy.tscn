@@ -1,14 +1,24 @@
-[gd_scene load_steps=62 format=3 uid="uid://bjeyuk0031nsr"]
+[gd_scene load_steps=67 format=3 uid="uid://bjeyuk0031nsr"]
 
 [ext_resource type="Script" path="res://Scripts/Units/player_evy.gd" id="1_73mtl"]
+[ext_resource type="Shader" path="res://Scenes/Player/player_evy_teleporting.gdshader" id="1_gqcsy"]
 [ext_resource type="PackedScene" uid="uid://bg6mx8u5umcl2" path="res://Scenes/EntityComponents/MovementComponent.tscn" id="2_riik3"]
 [ext_resource type="PackedScene" uid="uid://tsk1kb2qlxr7" path="res://Scenes/EntityComponents/HealthComponent.tscn" id="2_ugonx"]
 [ext_resource type="Texture2D" uid="uid://bujoey6672lkh" path="res://Assets/Base Character - Free/idle.png" id="2_uw7bd"]
 [ext_resource type="Texture2D" uid="uid://b6xypgb2ren3m" path="res://Assets/Base Character - Free/run.png" id="3_wjeco"]
 [ext_resource type="PackedScene" uid="uid://dj16033t7yaoq" path="res://Scenes/EntityComponents/AttackComponents/DefaultAttackComponent.tscn" id="3_wvx7r"]
-[ext_resource type="Shader" path="res://Scenes/Player/player_evy.gdshader" id="4_busuh"]
+[ext_resource type="Shader" path="res://Scenes/Player/player_pointer.gdshader" id="5_0p614"]
 [ext_resource type="PackedScene" uid="uid://sm8lx4hc1pb0" path="res://Scenes/EntityComponents/HurtboxComponent.tscn" id="5_5r3rr"]
 [ext_resource type="PackedScene" uid="uid://ct2bsrpsmobgd" path="res://Scenes/EntityComponents/AttackComponents/ProjectileAttackComponents/PlumeDaggerComponent.tscn" id="5_8n7fg"]
+[ext_resource type="Script" path="res://Scripts/EntityComponents/AttackComponents/DefaultMeleeAttackComponent.gd" id="10_dg0xo"]
+[ext_resource type="PackedScene" uid="uid://dftmruwpnxac8" path="res://Scenes/DamageDealers/sword_slash_area.tscn" id="11_7qu78"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vyi3c"]
+shader = ExtResource("1_gqcsy")
+shader_parameter/ghost = 0.455
+shader_parameter/speed = 3.636
+shader_parameter/giggle = 153.247
+shader_parameter/amplitude = 0.35
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_o8qsp"]
 radius = 2.5
@@ -394,7 +404,7 @@ animations = [{
 }]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5irrs"]
-shader = ExtResource("4_busuh")
+shader = ExtResource("5_0p614")
 shader_parameter/color = Color(1, 1, 1, 1)
 shader_parameter/color2 = Color(1, 1, 1, 1)
 shader_parameter/progress = 0.0
@@ -403,7 +413,15 @@ shader_parameter/progress = 0.0
 radius = 5.0
 height = 12.0
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_j4yhi"]
+shader = ExtResource("1_gqcsy")
+shader_parameter/ghost = 0.8
+shader_parameter/speed = 77.143
+shader_parameter/giggle = 80.0
+shader_parameter/amplitude = 0.075
+
 [node name="Player_Evy" type="CharacterBody2D"]
+material = SubResource("ShaderMaterial_vyi3c")
 scale = Vector2(2, 2)
 collision_mask = 18
 motion_mode = 1
@@ -422,6 +440,22 @@ autoplay = "Idle_right"
 frame_progress = 0.275085
 
 [node name="Rotatable" type="Node2D" parent="."]
+
+[node name="AttackComponents" type="Node2D" parent="Rotatable"]
+
+[node name="SwordAttackComponent" parent="Rotatable/AttackComponents" node_paths=PackedStringArray("sword_slash_reset_timer", "weapon_cooldown_timer") instance=ExtResource("3_wvx7r")]
+script = ExtResource("10_dg0xo")
+damage_hitbox_packed = ExtResource("11_7qu78")
+sword_slash_reset_timer = NodePath("../../../Timers/SwordSlashResetTimer")
+weapon_cooldown_timer = NodePath("../../../Timers/SwordSlashTimer")
+
+[node name="PlumeDaggerAttackComponent" parent="Rotatable/AttackComponents" node_paths=PackedStringArray("weapon_cooldown_timer") instance=ExtResource("5_8n7fg")]
+position = Vector2(0, -1.5)
+scale = Vector2(2, 2)
+projectile_distance = 460.0
+attack_damage = 15
+weapon_speed = 250.0
+weapon_cooldown_timer = NodePath("../../../Timers/DaggerThrowCooldown")
 
 [node name="LookingThisWay" type="Polygon2D" parent="Rotatable"]
 material = SubResource("ShaderMaterial_5irrs")
@@ -453,16 +487,6 @@ dash_time = 0.08
 dash_cooldown = NodePath("../Timers/DashCooldown")
 tp_cooldown = NodePath("../Timers/TeleportCooldown")
 
-[node name="Attacks" type="Node2D" parent="."]
-
-[node name="SwordAttack" parent="Attacks" instance=ExtResource("3_wvx7r")]
-
-[node name="PlumeDaggerAttack" parent="Attacks" instance=ExtResource("5_8n7fg")]
-position = Vector2(0, -1.5)
-scale = Vector2(2, 2)
-projectile_distance = 460.0
-weapon_speed = 250.0
-
 [node name="Timers" type="Node2D" parent="."]
 
 [node name="DashCooldown" type="Timer" parent="Timers"]
@@ -473,6 +497,33 @@ one_shot = true
 wait_time = 4.0
 one_shot = true
 
+[node name="DaggerThrowCooldown" type="Timer" parent="Timers"]
+wait_time = 0.3
+one_shot = true
+
+[node name="SwordSlashTimer" type="Timer" parent="Timers"]
+wait_time = 0.25
+one_shot = true
+
+[node name="SwordSlashResetTimer" type="Timer" parent="Timers"]
+wait_time = 0.85
+one_shot = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 2
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+modulate = Color(0, 0, 0, 1)
+show_behind_parent = true
+material = SubResource("ShaderMaterial_j4yhi")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
 [connection signal="teleported" from="MovementComponent" to="." method="_on_movement_component_teleported"]
 
-[editable path="Attacks/PlumeDaggerAttack"]
+[editable path="Rotatable/AttackComponents/PlumeDaggerAttackComponent"]

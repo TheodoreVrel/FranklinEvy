@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name Enemy
 
-enum EnemyBehavior {BACK_FORTH, FOLLOW, NONE}
+enum EnemyBehavior {BACK_FORTH, FOLLOW, NONE, CUSTOM}
 @export var behavior : EnemyBehavior
 var starting_position : Vector2
 @export var max_distance : int = 2000

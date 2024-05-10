@@ -24,7 +24,6 @@ var dagger_rotation_offset : float
 #var current_state : dagger_state = dagger_state.NONE
 @onready var tp_focus_timer : Timer = $TeleportFocusTimer
 
-#var tween : Tween
 
 signal picked_up
 signal hovered
@@ -36,21 +35,24 @@ func _ready():
 	speed *= 10
 	$Control/name.text = str(self)
 	$Control/name.rotation -= global_rotation
-	print(attack)
+	print("VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV",attack)
+	print(secondary_attack)
 	#print("New Dagger, distance = ", distance, " ---- ", origin_point.distance_to(get_global_mouse_position()))
 	#dagger_traveling(direction, distance, speed)
 
 func _process(_delta):
-	if distance_traveled > distance:
+	if moving and distance_traveled > distance:
 		moving = false
 		await get_tree().create_timer(0.1).timeout
 		still_collideable = false
+		print(still_collideable)
 	
 
 func _physics_process(delta):
 	dagger_movement(origin_point, delta)
 
 func dagger_movement(from: Vector2,  delta):
+	#direction: Vector2,  speed: float,
 	if moving:
 		position += direction.normalized() * speed * delta
 		
@@ -58,7 +60,7 @@ func dagger_movement(from: Vector2,  delta):
 		#tween = get_tree().create_tween()
 		#tween.tween_property(self, "position", $".".position + direction.normalized() * distance, speed)
 		#moving = false
-	elif !moving and dagger_marker:
+	elif !moving and is_instance_valid(dagger_marker):
 		global_position = dagger_marker.global_position
 		rotation =  dagger_marker.get_parent().get_parent().rotation - dagger_rotation_offset
 		still_collideable = false
@@ -67,10 +69,7 @@ func dagger_movement(from: Vector2,  delta):
 
 func _on_planting_detection_area_entered_hitbox_area(area):
 	#print("collision at ", position)
-	
-	
-	#tween.kill()
-	
+
 	var hurtbox_owner = area.get_parent()
 	#Actually, I'm not sure this should just be for enemies
 	if hurtbox_owner is Enemy and still_collideable:
@@ -82,8 +81,7 @@ func _on_planting_detection_area_entered_hitbox_area(area):
 		var collision_point = global_position - hurtbox_owner.global_position
 		collision_point = collision_point.rotated(-hurtbox_owner.global_rotation)
 		
-		dagger_marker.global_position =  collision_point# * hurtbox_owner.position.normalized().angle() #+ (hurtbox_owner.position * hurtbox_owner.position.angle()).normalized() 
-		#print("Global Position = ", dagger_marker.global_position, " | ", area.global_position,"  and marker local position = ", position, "  ", dagger_marker.position," while local position for the area is ", area.position)
+		dagger_marker.global_position =  collision_point 
 		dagger_rotation_offset = hurtbox_owner.rotation - rotation
 		
 		connect("picked_up", hurtbox_owner.dagger_removed)
@@ -93,29 +91,23 @@ func _on_planting_detection_area_entered_hitbox_area(area):
 			pass
 	
 	moving = false
+	
 
 
 func _on_pick_up_area_body_entered(body):
+	var hurtbox_owner = null
+	if is_instance_valid(dagger_marker) : hurtbox_owner = dagger_marker.get_parent().get_parent().find_child("HurtboxComponent")
+	if is_instance_valid(dagger_marker) and hurtbox_owner:
+		print("ripped dagger out")
+		attack_hitbox_hit_unit_hurtbox(hurtbox_owner, secondary_attack)
 	if !moving and body.name == "Player_Evy":
 		if !is_queued_for_deletion():
 			picked_up.emit(self)
 		#print("freed")
 		queue_free()
+	
+		
 	#print("aaaaaaaaaa  ", moving, "      ", body.name)
-
-
-#func show_focused(focused : bool = true):
-	#var tween = get_tree().create_tween()
-	#if focused:
-		#tween.tween_property(pick_up_zone, "color", Color(Color.RED, 0.4), 1)
-	#else:
-		#tween.tween_property(pick_up_zone, "color", Color(Color.WHITE, 0.4), 1)
-##
-#var collision_pos : Vector2 = Vector2(0.0, 0.0)
-#
-#func _integrate_forces(state : Physics2DDirectBodyState) -> void:
-	#if state.get_contact_count() > 0:
-		#collision_pos = to_local(state.get_contact_local_position(0))
 
 
 func _on_pick_up_area_mouse_entered():
@@ -143,3 +135,11 @@ func _on_teleport_focus_timer_timeout():
 	if !is_queued_for_deletion():
 		tp_focused.emit(self)
 
+func initialize_secondary_attack(new_attack : Attack, assigned_to_attack : Attack):
+	assigned_to_attack = new_attack
+
+
+
+func _on_damage_detection_area_area_entered(area):
+	if still_collideable:
+		attack_hitbox_hit_unit_hurtbox(area, attack) # Replace with function body.

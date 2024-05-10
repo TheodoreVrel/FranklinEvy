@@ -89,6 +89,7 @@ label_settings = SubResource("LabelSettings_rk6v1")
 
 [connection signal="mouse_entered" from="RecastTpArea" to="." method="_on_recast_tp_area_mouse_entered"]
 [connection signal="mouse_exited" from="RecastTpArea" to="." method="_on_recast_tp_area_mouse_exited"]
+[connection signal="area_entered" from="DamageDetectionArea" to="." method="_on_damage_detection_area_area_entered"]
 [connection signal="area_entered" from="PlantingDetectionArea" to="." method="_on_planting_detection_area_entered_hitbox_area"]
 [connection signal="area_entered" from="PickUpArea" to="." method="_on_pick_up_area_area_entered"]
 [connection signal="body_entered" from="PickUpArea" to="." method="_on_pick_up_area_body_entered"]
