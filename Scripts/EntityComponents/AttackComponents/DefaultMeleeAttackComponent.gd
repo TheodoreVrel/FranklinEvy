@@ -27,9 +27,11 @@ func sword_slash():
 	
 			#timer cooldown stuff
 			
-		if sword_slash_reset_timer:
+		if weapon_cooldown_timer:
 			if sword_slash_num <= 3:
-				print(sword_slash_num)
+				#print(sword_slash_num)
+				can_use_attack = false
+				weapon_cooldown_timer.start()
 				sword_slash_reset_timer.stop()
 			if sword_slash_reset_timer.is_stopped():
 				sword_slash_reset_timer.start()

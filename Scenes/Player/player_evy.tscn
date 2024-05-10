@@ -502,7 +502,7 @@ wait_time = 0.3
 one_shot = true
 
 [node name="SwordSlashTimer" type="Timer" parent="Timers"]
-wait_time = 0.25
+wait_time = 0.15
 one_shot = true
 
 [node name="SwordSlashResetTimer" type="Timer" parent="Timers"]

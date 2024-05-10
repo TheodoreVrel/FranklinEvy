@@ -114,8 +114,8 @@ func get_input():
 	if Input.is_action_just_pressed("ui_down"):
 		print_daggers()
 		print(" | focused dagger = ", focused_dagger, " | tp dagger = ", tp_dagger, " | hovered for tp dagger = ", dagger_hovered_for_tp_recast, "\n ________")
-	if Input.is_action_just_pressed("ui_up"):
-		reset_all_daggers()
+	#if Input.is_action_just_pressed("ui_up"):
+		#reset_all_daggers()
 	
 	
 	if Input.is_action_just_pressed("action_1"):
@@ -123,6 +123,8 @@ func get_input():
 		if tp_dagger and is_instance_valid(tp_dagger) and dagger_hovered_for_tp_recast == tp_dagger:
 			tp_to(tp_dagger.position)
 			reset_all_daggers()
+		elif focused_dagger and dagger_hovered_for_tp_recast == focused_dagger:
+			pass
 		elif focused_dagger and hovered_dagger != focused_dagger:
 			reset_all_daggers()
 			focus_dagger(hovered_dagger)
@@ -300,7 +302,7 @@ func handle_dagger_zone_color(dagger : ThrowingDagger):
 		elif dagger == focused_dagger:
 			if dagger.tp_focus_timer.is_stopped():
 				pass
-			print("violet")
+			#print("violet")
 			
 		else : # dagger == hovered_dagger:
 			var current_distance = dagger.position.distance_to(position)
