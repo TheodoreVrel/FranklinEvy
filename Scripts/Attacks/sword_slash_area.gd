@@ -16,14 +16,14 @@ func swing(swing_num : int):
 	match swing_num:
 		
 		1:
-			select_swing_area(true)
-			tween.tween_property(self, "rotation", deg_to_rad(190), 0.13)
-		2:
 			select_swing_area(false)
-			tween.tween_property(self, "rotation", deg_to_rad(-155), 0.13)
-		3: 
+			tween.tween_property(self, "rotation", deg_to_rad(-190), 0.13)
+		2:
 			select_swing_area(true)
-			tween.tween_property(self, "rotation", deg_to_rad(235), 0.13)
+			tween.tween_property(self, "rotation", deg_to_rad(175), 0.13)
+		3: 
+			select_swing_area(false)
+			tween.tween_property(self, "rotation", deg_to_rad(-220), 0.13)
 		
 	rotation = 0
 	#print (swing_num)

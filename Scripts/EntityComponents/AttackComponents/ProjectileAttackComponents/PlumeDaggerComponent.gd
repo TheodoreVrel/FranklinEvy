@@ -7,9 +7,9 @@ var throwing_knives_left : int = total_throwing_knives
 
 var secondary_attack : Attack = Attack.new()
 var attack_2_name : String = "RippedDaggerBleed"
-var attack_2_damage : int = 5
-var attack_2_damage_2 : int = 10
-var attack_2_damage_duration : float = 5
+@export var attack_2_damage : int = 5
+@export var attack_2_damage_2 : int = 10
+@export var attack_2_damage_duration : float = 5
 var attack_2_stun_time : float = 0.3
 
 func more_onready_settings():

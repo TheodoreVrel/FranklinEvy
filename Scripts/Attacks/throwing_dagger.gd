@@ -49,9 +49,9 @@ func _process(_delta):
 	
 
 func _physics_process(delta):
-	dagger_movement(origin_point, delta)
+	dagger_movement(delta)
 
-func dagger_movement(from: Vector2,  delta):
+func dagger_movement(delta):
 	#direction: Vector2,  speed: float,
 	if moving:
 		position += direction.normalized() * speed * delta
@@ -135,8 +135,8 @@ func _on_teleport_focus_timer_timeout():
 	if !is_queued_for_deletion():
 		tp_focused.emit(self)
 
-func initialize_secondary_attack(new_attack : Attack, assigned_to_attack : Attack):
-	assigned_to_attack = new_attack
+#func initialize_secondary_attack(new_attack : Attack, _assigned_to_attack : Attack):
+	#_assigned_to_attack = new_attack
 
 
 

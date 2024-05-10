@@ -19,12 +19,12 @@ func _ready():
 	print ("enemy ready - ", movement_component.speed)
 
 func _physics_process(delta):
-	movement_behavior(behavior, delta)
+	movement_behavior(delta)
 
 	move_and_slide()
 	#print(velocity, "    ", position)
 
-func movement_behavior(behavior, delta):
+func movement_behavior(delta):
 	match behavior:
 		EnemyBehavior.BACK_FORTH:
 			if max_distance_reached:
