@@ -10,6 +10,7 @@ var sword_slash_num : int = 1
 
 func more_onready_settings():
 	damage_hitbox = damage_hitbox_packed.instantiate()
+	damage_hitbox.connect("enemy_hit", attack_hitbox_hit_unit_hurtbox)
 	add_child(damage_hitbox)
 	
 	if sword_slash_reset_timer:
@@ -44,3 +45,9 @@ func _on_sword_slash_cooldown_timeout():
 	if weapon_cooldown_timer :
 		can_use_attack = false
 		weapon_cooldown_timer.start()
+
+
+func attack_hitbox_hit_unit_hurtbox(area):
+	if area is HurtboxComponent:
+		area.change_health(attack)
+		print("------------  ", attack.health_value)

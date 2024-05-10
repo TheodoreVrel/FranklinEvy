@@ -447,6 +447,7 @@ frame_progress = 0.275085
 script = ExtResource("10_dg0xo")
 damage_hitbox_packed = ExtResource("11_7qu78")
 sword_slash_reset_timer = NodePath("../../../Timers/SwordSlashResetTimer")
+attack_damage = 3
 weapon_cooldown_timer = NodePath("../../../Timers/SwordSlashTimer")
 
 [node name="PlumeDaggerAttackComponent" parent="Rotatable/AttackComponents" node_paths=PackedStringArray("weapon_cooldown_timer") instance=ExtResource("5_8n7fg")]

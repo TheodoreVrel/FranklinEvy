@@ -7,9 +7,12 @@ size = Vector2(100, 25)
 
 [node name="SwordSlashArea" type="Area2D"]
 scale = Vector2(0.4, 0.4)
+collision_layer = 32
+collision_mask = 2
 script = ExtResource("1_44370")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(-50, -5)
 rotation = 0.705113
 shape = SubResource("RectangleShape2D_a7is8")
@@ -19,10 +22,14 @@ debug_color = Color(0.847059, 0.376471, 0, 0.419608)
 polygon = PackedVector2Array(50.2059, 0.607338, -50.8202, -4.16017, 49.4065, 4.12315)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(77.5, 7.5)
 rotation = -0.169297
 shape = SubResource("RectangleShape2D_a7is8")
+disabled = true
 debug_color = Color(0.847059, 0.376471, 0, 0.419608)
 
 [node name="Polygon2D" type="Polygon2D" parent="CollisionShape2D2"]
 polygon = PackedVector2Array(-49.2958, -1.98029, 49.4633, -1.17755, -51.1259, 2.67276)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
