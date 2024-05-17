@@ -8,6 +8,9 @@ var _current_health : int
 @export var armor : int
 var current_health : int
 
+@onready var unit = get_parent()
+
+
 signal health_changed
 signal death
 
@@ -25,9 +28,12 @@ func take_damage(damage: int):
 		bonus_health = 0
 	_current_health -= remaining_damage
 	
-	
 	health_changed.emit()
 	print(current_health, " health left")
+	
+	
+	
+
 
 func heal_damage(health : int):
 	_current_health += health
@@ -44,6 +50,6 @@ func gain_bonus_health(health : int):
 func _on_health_changed():
 	current_health = _current_health + bonus_health
 	if current_health <= 0:
-		print(get_parent(), " died")
-		death.emit(get_parent())
+		print(unit, " died")
+		death.emit(unit)
 

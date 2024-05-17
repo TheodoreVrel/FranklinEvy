@@ -7,6 +7,7 @@ var camera_following_player : bool = true
 @onready var enemies_container = $Enemies
 
 func _ready():
+	Globals.current_player = player
 	for enemy in enemies_container.get_children():
 		if enemy.find_child("HealthComponent"):
 			enemy.find_child("HealthComponent").connect("death", kill_enemy)
@@ -27,5 +28,5 @@ func _on_player_evy_teleporting(new_position):
 
 func kill_enemy(enemy : Enemy):
 	print("enemy died")
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.41).timeout
 	if is_instance_valid(enemy) : enemy.queue_free()

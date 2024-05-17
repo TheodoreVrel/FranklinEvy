@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://breec0q2uwp48"]
+[gd_scene load_steps=8 format=3 uid="uid://breec0q2uwp48"]
 
 [ext_resource type="Script" path="res://Scripts/Units/Enemy.gd" id="1_wffvo"]
 [ext_resource type="PackedScene" uid="uid://bg6mx8u5umcl2" path="res://Scenes/EntityComponents/MovementComponent.tscn" id="2_cw20s"]
 [ext_resource type="PackedScene" uid="uid://tsk1kb2qlxr7" path="res://Scenes/EntityComponents/HealthComponent.tscn" id="3_77paw"]
 [ext_resource type="PackedScene" uid="uid://sm8lx4hc1pb0" path="res://Scenes/EntityComponents/HurtboxComponent.tscn" id="4_ujp2y"]
+[ext_resource type="PackedScene" uid="uid://cms2ukbrq82gx" path="res://Scenes/EntityComponents/animation_component.tscn" id="5_lx7ny"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6mm28"]
 radius = 17.0294
@@ -39,7 +40,9 @@ health_component = NodePath("../HealthComponent")
 shape = SubResource("CircleShape2D_pk5l6")
 debug_color = Color(0.803922, 0.341176, 0.619608, 0.419608)
 
-[node name="DaggerMarkers" type="Node2D" parent="."]
-
 [node name="Polygon2D" type="Polygon2D" parent="."]
 polygon = PackedVector2Array(0, -23, -17, -16, -23, 0, -16, 16, 0, 23, 17, 15, 21, 5, 27, 0, 21, -5, 16, -16)
+
+[node name="DaggerMarkers" type="Node2D" parent="."]
+
+[node name="AnimationComponent" parent="." instance=ExtResource("5_lx7ny")]

@@ -88,6 +88,7 @@ func get_input():
 		else :
 			animated_player_sprite.play("Running_up")
 	
+	
 	#elif input_direction == null or input_direction == Vector2(0,0):
 		#if  last_recorded_input.x >= 1:
 			#
@@ -136,7 +137,9 @@ func get_input():
 			#print("action")
 		else :
 			reset_all_daggers()
-		
+	
+	if Input.is_action_just_released("ui_down"):
+		pass
 
 func print_daggers():
 	#print("_____________\nhovered dagger : ", hovered_dagger, " \nfocused dagger : ", focused_dagger, " \ntp dagger : ", tp_dagger, " \ndagger hovered for recast : ", dagger_hovered_for_tp_recast, "\n_____________")

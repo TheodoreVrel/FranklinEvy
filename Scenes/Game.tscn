@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://h7rko5nkpu2b"]
+[gd_scene load_steps=5 format=3 uid="uid://h7rko5nkpu2b"]
 
 [ext_resource type="PackedScene" uid="uid://bjeyuk0031nsr" path="res://Scenes/Player/player_evy.tscn" id="1_oqhap"]
 [ext_resource type="Script" path="res://Scripts/Game.gd" id="1_pt1v5"]
 [ext_resource type="PackedScene" uid="uid://breec0q2uwp48" path="res://Scenes/enemy.tscn" id="2_6f3y8"]
+[ext_resource type="PackedScene" uid="uid://rjqhjs6w160k" path="res://Scenes/unit.tscn" id="4_rnxfi"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_pt1v5")
@@ -28,4 +29,6 @@ position = Vector2(573, 249)
 behavior = 1
 to_follow = NodePath("../../Player_Evy")
 
-[connection signal="teleporting" from="Player_Evy" to="." method="_on_player_evy_teleporting"]
+[node name="Unit" parent="Enemies" instance=ExtResource("4_rnxfi")]
+visible = false
+position = Vector2(378, 19)

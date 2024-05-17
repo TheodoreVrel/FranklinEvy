@@ -8,7 +8,7 @@ var starting_position : Vector2
 
 var max_distance_reached : bool = false
 
-
+@onready var animation_component = $AnimationComponent
 
 @onready var movement_component = $MovementComponent
 @export var to_follow : Node2D

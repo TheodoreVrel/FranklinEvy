@@ -1,14 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://bto4716eaat84"]
+[gd_scene load_steps=3 format=3 uid="uid://bto4716eaat84"]
+
+[ext_resource type="Script" path="res://Scenes/EntityComponents/bleeding_gpu_particles_2d.gd" id="1_5b53p"]
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_to1xr"]
 particle_flag_disable_z = true
-direction = Vector3(0, 0, 0)
-spread = 35.0
+angle_min = -450.0
+angle_max = 489.0
+inherit_velocity_ratio = 0.5
+direction = Vector3(0, 100, 0)
+spread = 100.0
 flatness = 0.675
 initial_velocity_min = 33.0
 initial_velocity_max = 100.0
-gravity = Vector3(0, 98, 0)
+gravity = Vector3(0, 80, 0)
 
 [node name="GPUParticles2D" type="GPUParticles2D"]
+scale = Vector2(4, 4)
+emitting = false
+amount = 5
 process_material = SubResource("ParticleProcessMaterial_to1xr")
+lifetime = 0.3
+one_shot = true
+explosiveness = 0.32
 trail_enabled = true
+trail_lifetime = 0.11
+script = ExtResource("1_5b53p")
+
+[connection signal="finished" from="." to="." method="_on_finished"]
