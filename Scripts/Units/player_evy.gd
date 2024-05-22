@@ -27,7 +27,7 @@ var tp_dagger : ThrowingDagger
 var dagger_hovered_for_tp_recast : ThrowingDagger
 signal teleporting
 
-
+var interacting_with : Unit
 
 
 func _ready():
@@ -89,14 +89,6 @@ func get_input():
 			animated_player_sprite.play("Running_up")
 	
 	
-	#elif input_direction == null or input_direction == Vector2(0,0):
-		#if  last_recorded_input.x >= 1:
-			#
-		#elif last_recorded_input.x <= -1:
-			#
-		#elif last_recorded_input.y >= 1:
-			#
-		#elif last_recorded_input.y <= -1:
 	
 	if Input.is_action_just_pressed("attack"):
 		attack_sword()
@@ -112,11 +104,11 @@ func get_input():
 		#print("throwing to max distance : ", throw_to_max_distance)
 		attack_throwing_knife(projectile_emission_point, get_local_mouse_position(), throw_to_max_distance)
 		
-	if Input.is_action_just_pressed("ui_down"):
-		print_daggers()
-		print(" | focused dagger = ", focused_dagger, " | tp dagger = ", tp_dagger, " | hovered for tp dagger = ", dagger_hovered_for_tp_recast, "\n ________")
-	#if Input.is_action_just_pressed("ui_up"):
-		#reset_all_daggers()
+	#if Input.is_action_just_pressed("ui_down"):
+		#print_daggers()
+		#print(" | focused dagger = ", focused_dagger, " | tp dagger = ", tp_dagger, " | hovered for tp dagger = ", dagger_hovered_for_tp_recast, "\n ________")
+	##if Input.is_action_just_pressed("ui_up"):
+		##reset_all_daggers()
 	
 	
 	if Input.is_action_just_pressed("action_1"):
@@ -139,7 +131,10 @@ func get_input():
 			reset_all_daggers()
 	
 	if Input.is_action_just_released("ui_down"):
-		pass
+		if is_instance_valid(interacting_with):
+			print("can interract with ", interacting_with.character_name)
+			GameData.speaking_to = interacting_with.character_name
+			#DialogueManager.show_example_dialogue_balloon(load("res://dialogue/solius_dialogue.dialogue"), "start")
 
 func print_daggers():
 	#print("_____________\nhovered dagger : ", hovered_dagger, " \nfocused dagger : ", focused_dagger, " \ntp dagger : ", tp_dagger, " \ndagger hovered for recast : ", dagger_hovered_for_tp_recast, "\n_____________")
@@ -189,7 +184,6 @@ func focus_dagger(dagger : ThrowingDagger):
 func attack_throwing_knife(emitting_position : Vector2, throwing_towards : Vector2, throw_to_max_distance : bool):
 	throwing_knife_attack.throw_projectile(get_parent().find_child("Projectiles"), throwing_knife_attack, emitting_position, throwing_towards, throw_to_max_distance)
 
-
 func get_throwing_knife_emission_position():
 	match last_throw_angle:
 		throw_angle.LEFT:
@@ -201,6 +195,7 @@ func get_throwing_knife_emission_position():
 
 func pick_up_throwing_knife(dagger):
 	throwing_knife_attack.throwing_knives_left += 1
+
 	if dagger == hovered_dagger:
 		hovered_dagger = null
 	if dagger == dagger_hovered_for_tp_recast:
@@ -212,7 +207,6 @@ func pick_up_throwing_knife(dagger):
 	
 	reset_all_daggers()
 	print("picked up")
-
 
 func tp_area_hovered(dagger : ThrowingDagger, in_area : bool):
 	if in_area and ((tp_dagger and tp_dagger != dagger) or (focused_dagger and focused_dagger != dagger)):
@@ -241,7 +235,6 @@ func tp_to(point : Vector2):
 	movement_component.teleport(point, .1)
 	teleporting.emit(point)
 	#tp_focused = false
-	
 
 func _on_movement_component_teleported(teleported : bool):
 	if teleported:
@@ -332,12 +325,7 @@ func attack_sword():
 	sword_attack.sword_slash()
 
 
-
-#Problem:  the tp is not set correctly. Sometimes dagges light up for tp but you can't tp to them. Recheck them
-#action on the dagger should light it up, making it the focused dagger. Action outside the dagger cancels everything and resets focused dagger and obviously also the tp_are_dagger
-#you should set the timer for tp, and then the color turns purple on timeout. Should probably put two polygons, one for distance and one for timer
-
-#Realizing that tp indicator should probably not show if you hover but nothing is focused
-
+func set_interaction_target(target):
+	interacting_with = target
 
 

@@ -29,7 +29,7 @@ speed_multiplier = 10.0
 
 [node name="HealthComponent" parent="." instance=ExtResource("3_77paw")]
 position = Vector2(-1, 0)
-max_health = 50
+max_health = 500
 
 [node name="HurtboxComponent" parent="." node_paths=PackedStringArray("health_component") instance=ExtResource("4_ujp2y")]
 collision_layer = 2

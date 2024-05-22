@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://h7rko5nkpu2b"]
+[gd_scene load_steps=6 format=3 uid="uid://h7rko5nkpu2b"]
 
 [ext_resource type="PackedScene" uid="uid://bjeyuk0031nsr" path="res://Scenes/Player/player_evy.tscn" id="1_oqhap"]
 [ext_resource type="Script" path="res://Scripts/Game.gd" id="1_pt1v5"]
 [ext_resource type="PackedScene" uid="uid://breec0q2uwp48" path="res://Scenes/enemy.tscn" id="2_6f3y8"]
-[ext_resource type="PackedScene" uid="uid://rjqhjs6w160k" path="res://Scenes/unit.tscn" id="4_rnxfi"]
+[ext_resource type="PackedScene" uid="uid://co2rgiawhoelq" path="res://Scenes/Units/unit_Solius.tscn" id="4_nnr5k"]
+[ext_resource type="PackedScene" uid="uid://rjqhjs6w160k" path="res://Scenes/Units/unit.tscn" id="4_rnxfi"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_pt1v5")
@@ -18,6 +19,7 @@ projectiles = NodePath("../Projectiles")
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(290, 190)
 scale = Vector2(3, 3)
+zoom = Vector2(0.86, 0.86)
 
 [node name="Enemies" type="Node2D" parent="."]
 
@@ -29,6 +31,15 @@ position = Vector2(573, 249)
 behavior = 1
 to_follow = NodePath("../../Player_Evy")
 
-[node name="Unit" parent="Enemies" instance=ExtResource("4_rnxfi")]
-visible = false
+[node name="Enemy3" parent="Enemies" node_paths=PackedStringArray("to_follow") instance=ExtResource("2_6f3y8")]
+position = Vector2(573, 249)
+behavior = 2
+to_follow = NodePath("../../Player_Evy")
+
+[node name="Units" type="Node2D" parent="."]
+
+[node name="UnitSolius" parent="Units" instance=ExtResource("4_nnr5k")]
+position = Vector2(163, 67)
+
+[node name="Unit" parent="Units" instance=ExtResource("4_rnxfi")]
 position = Vector2(378, 19)

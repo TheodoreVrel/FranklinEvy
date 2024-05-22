@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_12"
+type="Resource"
+uid="uid://cio7752jjn6hc"
+path="res://.godot/imported/solius_dialogue.dialogue-b6e129d74e0743f3b9f341d609ad0389.tres"
+
+[deps]
+
+source_file="res://dialogue/solius_dialogue.dialogue"
+dest_files=["res://.godot/imported/solius_dialogue.dialogue-b6e129d74e0743f3b9f341d609ad0389.tres"]
+
+[params]
+
+defaults=true

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://3dqr74t8njhj"]
+
+[ext_resource type="Script" path="res://Scenes/EntityComponents/interaction_detection_area.gd" id="1_oo520"]
+
+[node name="Interaction_Detection_Area" type="Area2D"]
+collision_layer = 0
+collision_mask = 32
+script = ExtResource("1_oo520")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

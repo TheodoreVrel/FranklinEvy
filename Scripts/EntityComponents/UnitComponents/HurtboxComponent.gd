@@ -6,7 +6,7 @@ class_name HurtboxComponent
 @onready var unit = get_parent()
 
 func change_health(skill : Skill):
-	if health_component:
+	if is_instance_valid(health_component):
 		if skill is Attack:
 			health_component.take_damage(skill.health_value)
 			if skill.change_duration != null:
@@ -28,7 +28,7 @@ func change_health_over_time(ticks_per_second: float, seconds : float, hp_value 
 		var new_rotation = get_angle_to(Globals.current_player.position) - deg_to_rad(90)
 		for tick in range(total_ticks):
 			await get_tree().create_timer(update_time).timeout
-			health_component.take_damage(damage_per_tick)
+			if is_instance_valid(health_component): health_component.take_damage(damage_per_tick)
 			
 			if unit.animation_component:
 				unit.animation_component.blood_spurt_effect(new_rotation)

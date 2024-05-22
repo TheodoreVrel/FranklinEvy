@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://co2rgiawhoelq"]
+
+[ext_resource type="Script" path="res://Scripts/Units/Unit.gd" id="1_rdifu"]
+[ext_resource type="PackedScene" uid="uid://c6o1l3833oqx6" path="res://Scenes/EntityComponents/interaction_component.tscn" id="2_46dsa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gyeyy"]
+radius = 29.0689
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s715c"]
+radius = 33.0
+
+[node name="UnitSolius" type="CharacterBody2D" node_paths=PackedStringArray("interaction_component")]
+script = ExtResource("1_rdifu")
+interaction_component = NodePath("InteractionComponent")
+character_name = "Solius"
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-21, -22, -22, 22, 22, 23, 19, -23)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_gyeyy")
+
+[node name="InteractionComponent" parent="." instance=ExtResource("2_46dsa")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionComponent"]
+shape = SubResource("CircleShape2D_s715c")

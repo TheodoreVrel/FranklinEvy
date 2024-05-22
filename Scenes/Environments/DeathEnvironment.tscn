@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpuoft7t5off6"]
+
+[ext_resource type="PackedScene" uid="uid://bjeyuk0031nsr" path="res://Scenes/Player/player_evy.tscn" id="1_c4635"]
+
+[node name="DeathEnvironment" type="Node2D"]
+
+[node name="Player_Evy" parent="." instance=ExtResource("1_c4635")]
+position = Vector2(292, 121)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.137255, 0, 0.137255, 1)

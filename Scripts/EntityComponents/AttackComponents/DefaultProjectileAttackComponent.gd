@@ -33,7 +33,10 @@ func throw_projectile(projectileContainer : Node2D, projectile_attack_component 
 		new_projectile.connect("tp_area_hovered", player.tp_area_hovered)
 		new_projectile.connect("tp_focused", player.on_teleport_focus_timer_timeout)
 		
+		#if !is_instance_valid(projectileContainer): 
+			#var new_projectile_container = Node2D.new()
 		projectileContainer.add_child(new_projectile)
+		
 		
 		#timer cooldown stuff
 		if weapon_cooldown_timer:

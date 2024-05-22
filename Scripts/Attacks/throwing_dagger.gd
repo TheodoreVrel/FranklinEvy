@@ -3,6 +3,7 @@ class_name ThrowingDagger
 
 var moving : bool = true
 var still_collideable : bool = true
+var ripped : bool = false
 
 
 @onready var origin_point : Vector2 = position
@@ -53,7 +54,9 @@ func _physics_process(delta):
 
 func dagger_movement(delta):
 	#direction: Vector2,  speed: float,
-	if moving:
+	if ripped :
+		pass
+	elif moving:
 		position += direction.normalized() * speed * delta
 		
 		distance_traveled = position.distance_to(origin_point)
@@ -100,15 +103,31 @@ func _on_pick_up_area_body_entered(body):
 	if is_instance_valid(dagger_marker) and hurtbox_owner:
 		print("ripped dagger out")
 		attack_hitbox_hit_unit_hurtbox(hurtbox_owner, secondary_attack)
+		
+		var tween = get_tree().create_tween()
+		tween.tween_property(self, "rotation", (body.global_position - global_position).normalized().angle() + deg_to_rad(90) , .05) # this will angle the dagger towards the player
+		#rotation = (body.global_position - global_position).normalized().angle() + deg_to_rad(90)
+		tween.connect("finished", _on_rotation_completed)
+		await get_tree().create_timer(0.51).timeout
+
+
+		
 	if !moving and body.name == "Player_Evy":
 		if !is_queued_for_deletion():
 			picked_up.emit(self)
+			
 		#print("freed")
 		queue_free()
 	
 		
 	#print("aaaaaaaaaa  ", moving, "      ", body.name)
 
+
+func _on_rotation_completed():
+	ripped = true
+	var tween = get_tree().create_tween()
+	tween.tween_property(self, "position", global_position + Vector2.DOWN.rotated(rotation) * -25, .02) # this will rip on the axis of the dagger
+	await get_tree().create_timer(0.025).timeout
 
 func _on_pick_up_area_mouse_entered():
 	if !is_queued_for_deletion():

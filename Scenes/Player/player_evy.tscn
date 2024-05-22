@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://bjeyuk0031nsr"]
+[gd_scene load_steps=70 format=3 uid="uid://bjeyuk0031nsr"]
 
 [ext_resource type="Script" path="res://Scripts/Units/player_evy.gd" id="1_73mtl"]
 [ext_resource type="Shader" path="res://Scenes/Player/player_evy_teleporting.gdshader" id="1_gqcsy"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://sm8lx4hc1pb0" path="res://Scenes/EntityComponents/HurtboxComponent.tscn" id="5_5r3rr"]
 [ext_resource type="PackedScene" uid="uid://ct2bsrpsmobgd" path="res://Scenes/EntityComponents/AttackComponents/ProjectileAttackComponents/PlumeDaggerComponent.tscn" id="5_8n7fg"]
 [ext_resource type="Script" path="res://Scripts/EntityComponents/AttackComponents/DefaultMeleeAttackComponent.gd" id="10_dg0xo"]
+[ext_resource type="PackedScene" uid="uid://3dqr74t8njhj" path="res://Scenes/EntityComponents/interaction_detection_area.tscn" id="10_kfu61"]
 [ext_resource type="PackedScene" uid="uid://dftmruwpnxac8" path="res://Scenes/DamageDealers/sword_slash_area.tscn" id="11_7qu78"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vyi3c"]
@@ -409,6 +410,13 @@ shader_parameter/color = Color(1, 1, 1, 1)
 shader_parameter/color2 = Color(1, 1, 1, 1)
 shader_parameter/progress = 0.0
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_d7qtg"]
+blend_mode = 1
+light_mode = 1
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_e0egc"]
+radius = 9.0
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_knwh4"]
 radius = 5.0
 height = 12.0
@@ -462,6 +470,13 @@ weapon_cooldown_timer = NodePath("../../../Timers/DaggerThrowCooldown")
 material = SubResource("ShaderMaterial_5irrs")
 polygon = PackedVector2Array(-1, 18.5, -5, 17, 0, 23.5, 5, 17, 1, 18.5)
 
+[node name="Interaction_Detection_Area" parent="Rotatable" instance=ExtResource("10_kfu61")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rotatable/Interaction_Detection_Area"]
+material = SubResource("CanvasItemMaterial_d7qtg")
+position = Vector2(0, 11)
+shape = SubResource("CapsuleShape2D_e0egc")
+
 [node name="ProjectileEmissionMarkers" type="Node2D" parent="Rotatable"]
 position = Vector2(0, 3)
 
@@ -507,7 +522,7 @@ wait_time = 0.15
 one_shot = true
 
 [node name="SwordSlashResetTimer" type="Timer" parent="Timers"]
-wait_time = 0.85
+wait_time = 0.4
 one_shot = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
